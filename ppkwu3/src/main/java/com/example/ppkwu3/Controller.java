@@ -1,5 +1,7 @@
 package com.example.ppkwu3;
 
+import org.json.CDL;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.http.HttpStatus;
@@ -24,8 +26,15 @@ public class Controller {
     public String getResponseAsXml(@RequestParam("text") String textToProcess) {
         ResponseApi responseApi = callExternalStringUtilityApi("http://localhost:8080", textToProcess);
 
-        String xmlResponse = createXmlResponse(responseApi);
-        return xmlResponse;
+        return createXmlResponse(responseApi);
+    }
+
+    @GetMapping(value = "/csv", produces = {"text/plain"})
+    public String getResponseAsCsv(@RequestParam("text") String textToProcess) {
+        ResponseApi responseApi = callExternalStringUtilityApi("http://localhost:8080", textToProcess);
+        JSONArray jsonArray = new JSONArray(responseApi.toString());
+        String res = CDL.toString(jsonArray);
+        return res;
     }
 
     private String createXmlResponse(ResponseApi responseApi) {
