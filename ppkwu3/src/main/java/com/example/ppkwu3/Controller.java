@@ -29,10 +29,16 @@ public class Controller {
         return createXmlResponse(responseApi);
     }
 
-    @GetMapping(value = "/csv", produces = {"text/plain"})
+    @GetMapping(value = "/csv", produces = {"text/plain",})
     public String getResponseAsCsv(@RequestParam("text") String textToProcess) {
         ResponseApi responseApi = callExternalStringUtilityApi("http://localhost:8080", textToProcess);
-        JSONArray jsonArray = new JSONArray(responseApi.toString());
+
+        return createCsvResponse(responseApi);
+    }
+
+    private String createCsvResponse(ResponseApi responseApi) {
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(new JSONObject(responseApi));
         String res = CDL.toString(jsonArray);
         return res;
     }
