@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
+import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.util.function.Function;
@@ -15,14 +16,15 @@ public class Controller {
 
     @GetMapping("/json")
     public String getResponseAsJson() {
-        WebClient.create("localhost:8080")
-                .method(HttpMethod.GET)
+        Mono<ResponseApi> text = WebClient.create("http://localhost:8080")
+                .get()
                 .uri(uriBuilder -> uriBuilder.path("/string")
-                        .queryParam("text", "has  */123AX")
+                        .queryParam("text", "has  */321AX")
                         .build())
-//                .header("Accept", "application/json, text/plain, */*")
                 .retrieve()
-                .bodyToMono(Object.class);
+                .bodyToMono(ResponseApi.class);
+        System.out.println(text.block());
+
         return "halo";
     }
 
