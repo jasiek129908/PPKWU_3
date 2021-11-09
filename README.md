@@ -16,7 +16,7 @@ To use API, u need to sent GET method and pass parameter text.
 /csv/?text=
 ```
 
-## Example with xml
+## Example call with xml
 ```
 http://localhost:1234/xml/?text=KaJaK 123..,,
 ```
@@ -31,4 +31,20 @@ Returns as xml
     <lowerCaseCounter>2</lowerCaseCounter>
     <whiteSpaceCounter>1</whiteSpaceCounter>
 </response>
+```
+Returns as json
+```
+{
+    "textToProcess": "KaJaK 123..,,",
+    "upperCaseCounter": 3,
+    "lowerCaseCounter": 2,
+    "digitCounter": 3,
+    "whiteSpaceCounter": 1,
+    "specialCharacterCounter": 4
+}
+```
+Returns as csv
+```
+specialCharacterCounter,digitCounter,upperCaseCounter,textToProcess,lowerCaseCounter,whiteSpaceCounter
+4,3,3,"KaJaK 123..,,",2,1
 ```
