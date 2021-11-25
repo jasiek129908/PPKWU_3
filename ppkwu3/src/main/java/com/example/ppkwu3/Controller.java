@@ -39,7 +39,7 @@ public class Controller {
     @GetMapping(value ="/txt", produces = {"text/plain"})
     public String getResponseAsText(@RequestParam("text") String textToProcess){
         ResponseApi responseApi = callExternalStringUtilityApi("http://localhost:8080", textToProcess);
-        return String.format("Text: %s\nupperCase: %d\nlowerCase: %d\ndigits: %d\nwhiteCharacters: %d\nspecialCharacters: %d",
+        return String.format("textToProcess: %s\nupperCaseCounter: %d\nlowerCaseCounter: %d\ndigitCounter: %d\nwhiteSpaceCounter: %d\nspecialCharacterCounter: %d",
                 responseApi.getTextToProcess(),responseApi.getUpperCaseCounter(),responseApi.getLowerCaseCounter(),responseApi.getDigitCounter(),
                 responseApi.getWhiteSpaceCounter(),responseApi.getSpecialCharacterCounter());
     }
