@@ -29,11 +29,19 @@ public class Controller {
         return createXmlResponse(responseApi);
     }
 
-    @GetMapping(value = "/csv", produces = {"text/plain",})
+    @GetMapping(value = "/csv", produces = {"text/plain"})
     public String getResponseAsCsv(@RequestParam("text") String textToProcess) {
         ResponseApi responseApi = callExternalStringUtilityApi("http://localhost:8080", textToProcess);
 
         return createCsvResponse(responseApi);
+    }
+
+    @GetMapping(value ="/txt", produces = {"text/plain"})
+    public String getResponseAsText(@RequestParam("text") String textToProcess){
+        ResponseApi responseApi = callExternalStringUtilityApi("http://localhost:8080", textToProcess);
+        return String.format("Text: %s\nupperCase: %d\nlowerCase: %d\ndigits: %d\nwhiteCharacters: %d\nspecialCharacters: %d",
+                responseApi.getTextToProcess(),responseApi.getUpperCaseCounter(),responseApi.getLowerCaseCounter(),responseApi.getDigitCounter(),
+                responseApi.getWhiteSpaceCounter(),responseApi.getSpecialCharacterCounter());
     }
 
     private String createCsvResponse(ResponseApi responseApi) {
